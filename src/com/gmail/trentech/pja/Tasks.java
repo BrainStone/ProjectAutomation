@@ -13,7 +13,7 @@ public class Tasks {
 
 	public void start() {
 		ConfigurationNode config = new ConfigManager().getConfig();
-		Main.getGame().getScheduler().createTaskBuilder().delay(config.getNode("Delay").getLong(), TimeUnit.SECONDS).name(Resource.NAME + ":" + UUID.randomUUID().toString()).execute(new Runnable() {
+		Main.getGame().getScheduler().createTaskBuilder().async().delay(config.getNode("Delay").getLong(), TimeUnit.SECONDS).name(Resource.NAME + ":" + UUID.randomUUID().toString()).execute(new Runnable() {
 			@Override
 			public void run() {
 				Main.getLog().info("Starting command scheduler");
@@ -38,7 +38,7 @@ public class Tasks {
 
 	private void repeatCommand(ConfigurationNode node) {
 		long interval = Utils.getTimeInMilliSeconds(node.getNode("Interval").getString());
-		Main.getGame().getScheduler().createTaskBuilder().delay(interval, TimeUnit.MILLISECONDS).interval(interval, TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
+		Main.getGame().getScheduler().createTaskBuilder().async().delay(interval, TimeUnit.MILLISECONDS).interval(interval, TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
 			@Override
             public void run() {			
 				Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), node.getNode("Command").getString());
@@ -47,7 +47,7 @@ public class Tasks {
 	}
 	
 	private void runOnceCommand(ConfigurationNode node) {
-		Main.getGame().getScheduler().createTaskBuilder().delay(Utils.getTimeInMilliSeconds(node.getNode("Interval").getString()), TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
+		Main.getGame().getScheduler().createTaskBuilder().async().delay(Utils.getTimeInMilliSeconds(node.getNode("Interval").getString()), TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
 			@Override
             public void run() {			
 				Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), node.getNode("Command").getString());
@@ -68,7 +68,7 @@ public class Tasks {
 			return;
 		}
 
-		Main.getGame().getScheduler().createTaskBuilder().delay(date.getTime() - current.getTime(), TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
+		Main.getGame().getScheduler().createTaskBuilder().async().delay(date.getTime() - current.getTime(), TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
 			@Override
             public void run() {
 				Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), node.getNode("Command").getString());

@@ -7,7 +7,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.scheduler.Task;
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.pja.Main;
@@ -16,7 +16,7 @@ import com.gmail.trentech.pja.Tasks;
 
 public class CMDReload implements CommandExecutor {
 
-	public CommandSpec cmdReload = CommandSpec.builder().description(Texts.of("Reload plugin!")).permission("pja.cmd.auto.reload").executor(this).build();
+	public CommandSpec cmdReload = CommandSpec.builder().description(Text.of("Reload plugin!")).permission("pja.cmd.auto.reload").executor(this).build();
 	
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -27,7 +27,7 @@ public class CMDReload implements CommandExecutor {
 		}
 		new Tasks().start();
 
-		src.sendMessage(Texts.of(TextColors.DARK_GREEN, "Reloaded"));
+		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Reloaded"));
 		
 		return CommandResult.success();
 	}

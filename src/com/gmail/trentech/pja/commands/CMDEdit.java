@@ -8,7 +8,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.pja.ConfigManager;
@@ -21,7 +21,7 @@ public class CMDEdit implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		if(!args.hasAny("name")) {
-			src.sendMessage(Texts.of(TextColors.YELLOW, "/auto edit <name> [time] [command] [repeat]"));
+			src.sendMessage(Text.of(TextColors.YELLOW, "/auto edit <name> [time] [command] [repeat]"));
 			return CommandResult.empty();
 		}
 		String name = args.<String>getOne("name").get().toLowerCase();
@@ -30,13 +30,13 @@ public class CMDEdit implements CommandExecutor {
 		ConfigurationNode config = configManager.getConfig();
 		
 		if(config.getNode("Commands", name).getString() == null){
-			src.sendMessage(Texts.of(TextColors.DARK_RED, name, " does not exist"));
+			src.sendMessage(Text.of(TextColors.DARK_RED, name, " does not exist"));
 			return CommandResult.empty();
 		}
 		ConfigurationNode node = config.getNode("Commands", name);
 		
 		if(!args.hasAny("arg0")) {
-			src.sendMessage(Texts.of(TextColors.YELLOW, "/auto edit <name> [time] [command] [repeat]"));
+			src.sendMessage(Text.of(TextColors.YELLOW, "/auto edit <name> [time] [command] [repeat]"));
 			return CommandResult.empty();
 		}
 		process(node, args.<String>getOne("arg0").get());
@@ -51,7 +51,7 @@ public class CMDEdit implements CommandExecutor {
 
 		configManager.save();
 
-		src.sendMessage(Texts.of(TextColors.DARK_GREEN, name, " edited successfully. Will not take effect until reload or restart"));
+		src.sendMessage(Text.of(TextColors.DARK_GREEN, name, " edited successfully. Will not take effect until reload or restart"));
 		return CommandResult.success();
 	}
 	
