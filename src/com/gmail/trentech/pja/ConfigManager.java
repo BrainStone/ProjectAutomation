@@ -14,7 +14,7 @@ public class ConfigManager {
 	private ConfigurationLoader<CommentedConfigurationNode> loader;
 
 	public ConfigManager() {
-		String folder = "config/" + Resource.NAME + "/";
+		String folder = "config/projectautomation/";
         if (!new File(folder).isDirectory()) {
         	new File(folder).mkdirs();
         }

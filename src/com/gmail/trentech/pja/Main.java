@@ -1,5 +1,7 @@
 package com.gmail.trentech.pja;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
@@ -29,6 +31,7 @@ public class Main {
 
     @Listener
     public void onInitialization(GameInitializationEvent event) {
+    	fixPath();
     	getGame().getCommandManager().register(this, new CommandManager().cmdAuto, "auto", "a");
     }
 
@@ -52,5 +55,13 @@ public class Main {
 
 	public static PluginContainer getPlugin() {
 		return plugin;
+	}
+	
+	private void fixPath(){
+		File directory = new File("config", "Project Automation");
+		if(directory.exists()){
+			File newDirectory = new File("config", "projectautomation");
+			directory.renameTo(newDirectory);
+		}
 	}
 }
