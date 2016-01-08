@@ -1,7 +1,9 @@
-package com.gmail.trentech.pja;
+package com.gmail.trentech.pja.utils;
 
 import java.io.File;
 import java.io.IOException;
+
+import com.gmail.trentech.pja.Main;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -13,8 +15,20 @@ public class ConfigManager {
 	private CommentedConfigurationNode config;
 	private ConfigurationLoader<CommentedConfigurationNode> loader;
 
+	public ConfigManager(String configName) {
+		String folder = "config/" + Resource.ID.toLowerCase() + "/";
+        if (!new File(folder).isDirectory()) {
+        	new File(folder).mkdirs();
+        }
+		file = new File(folder + configName);
+		
+		create();
+		load();
+		init();
+	}
+	
 	public ConfigManager() {
-		String folder = "config/projectautomation/";
+		String folder = "config/" + Resource.ID.toLowerCase() + "/";
         if (!new File(folder).isDirectory()) {
         	new File(folder).mkdirs();
         }

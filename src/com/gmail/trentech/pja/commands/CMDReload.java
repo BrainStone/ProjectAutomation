@@ -11,8 +11,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.pja.Main;
-import com.gmail.trentech.pja.Resource;
-import com.gmail.trentech.pja.Tasks;
+import com.gmail.trentech.pja.utils.Resource;
+import com.gmail.trentech.pja.utils.Tasks;
 
 public class CMDReload implements CommandExecutor {
 

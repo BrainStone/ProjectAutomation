@@ -9,9 +9,9 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.gmail.trentech.pja.ConfigManager;
 import com.gmail.trentech.pja.Main;
-import com.gmail.trentech.pja.Resource;
+import com.gmail.trentech.pja.utils.ConfigManager;
+import com.gmail.trentech.pja.utils.Resource;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -28,12 +28,12 @@ public class CMDDelete implements CommandExecutor {
 		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
 
-		if(config.getNode("Commands", name).getString() == null){
+		if(config.getNode("Schedulers", name).getString() == null){
 			src.sendMessage(Text.of(TextColors.DARK_RED, name, " does not exist"));
 			return CommandResult.empty();
 		}
 
-		if(!config.getNode("Commands").removeChild(name)){
+		if(!config.getNode("Schedulers").removeChild(name)){
 			src.sendMessage(Text.of(TextColors.DARK_RED, "Something went wrong"));
 			return CommandResult.empty();
 		}
@@ -41,7 +41,6 @@ public class CMDDelete implements CommandExecutor {
 		configManager.save();
 		
 		for(Task t : Main.getGame().getScheduler().getScheduledTasks()){
-			System.out.println(t.getName());
 			if(t.getName().equals(Resource.NAME + ":" + name)){
 				t.cancel();
 			}

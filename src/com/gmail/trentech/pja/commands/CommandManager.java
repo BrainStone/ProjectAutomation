@@ -4,11 +4,57 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
+import com.gmail.trentech.pja.commands.create.CMDButton;
+import com.gmail.trentech.pja.commands.create.CMDCreate;
+import com.gmail.trentech.pja.commands.create.CMDDoor;
+import com.gmail.trentech.pja.commands.create.CMDLever;
+import com.gmail.trentech.pja.commands.create.CMDPlate;
+import com.gmail.trentech.pja.commands.create.CMDSign;
+
 public class CommandManager {
 
+	private CommandSpec cmdButton = CommandSpec.builder()
+		    .description(Text.of("Create new command button"))
+		    .permission("pja.cmd.auto.create.button")
+		    .arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("command"))))
+		    .executor(new CMDButton())
+		    .build();
+	
+	private CommandSpec cmdDoor = CommandSpec.builder()
+		    .description(Text.of("Create new command door"))
+		    .permission("pja.cmd.auto.create.door")
+		    .arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("command"))))
+		    .executor(new CMDDoor())
+		    .build();
+	
+	private CommandSpec cmdLever = CommandSpec.builder()
+		    .description(Text.of("Create new command lever"))
+		    .permission("pja.cmd.auto.create.lever")
+		    .arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("command"))))
+		    .executor(new CMDLever())
+		    .build();
+	
+	private CommandSpec cmdPlate = CommandSpec.builder()
+		    .description(Text.of("Create new command pressure plate"))
+		    .permission("pja.cmd.auto.create.plate")
+		    .arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("command"))))
+		    .executor(new CMDPlate())
+		    .build();
+	
+	private CommandSpec cmdSign = CommandSpec.builder()
+		    .description(Text.of("Create new command sign"))
+		    .permission("pja.cmd.auto.create.sign")
+		    .arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("command"))))
+		    .executor(new CMDSign())
+		    .build();
 	private CommandSpec cmdCreate = CommandSpec.builder()
 		    .description(Text.of("Create new scheduled command"))
-		    .permission("pja.cmd.auto.create")	    
+		    .permission("pja.cmd.auto.create")
+		    .child(cmdButton, "button", "b")
+		    .child(cmdDoor, "door", "d")
+		    .child(cmdLever, "lever", "l")
+		    .child(cmdPlate, "plate", "p")
+		    .child(cmdSign, "sign", "s")
 		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("name")))
 		    		,GenericArguments.optional(GenericArguments.string(Text.of("time")))
 		    		,GenericArguments.optional(GenericArguments.string(Text.of("command")))
@@ -25,7 +71,7 @@ public class CommandManager {
 
 	private CommandSpec cmdEdit = CommandSpec.builder()
 		    .description(Text.of("Edit a scheduled command"))
-		    .permission("pja.cmd.auto.edit")	    
+		    .permission("pja.cmd.auto.edit")
 		    .arguments(GenericArguments.optional(GenericArguments.string(Text.of("name")))
 		    		,GenericArguments.optional(GenericArguments.string(Text.of("arg0")))
 		    		,GenericArguments.optional(GenericArguments.string(Text.of("arg1")))

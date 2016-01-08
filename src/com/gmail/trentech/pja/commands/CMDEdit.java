@@ -11,8 +11,8 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.gmail.trentech.pja.ConfigManager;
-import com.gmail.trentech.pja.Utils;
+import com.gmail.trentech.pja.utils.ConfigManager;
+import com.gmail.trentech.pja.utils.Utils;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -29,11 +29,11 @@ public class CMDEdit implements CommandExecutor {
 		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
 		
-		if(config.getNode("Commands", name).getString() == null){
+		if(config.getNode("Schedulers", name).getString() == null){
 			src.sendMessage(Text.of(TextColors.DARK_RED, name, " does not exist"));
 			return CommandResult.empty();
 		}
-		ConfigurationNode node = config.getNode("Commands", name);
+		ConfigurationNode node = config.getNode("Schedulers", name);
 		
 		if(!args.hasAny("arg0")) {
 			src.sendMessage(Text.of(TextColors.YELLOW, "/auto edit <name> [time] [command] [repeat]"));

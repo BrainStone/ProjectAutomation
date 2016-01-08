@@ -14,8 +14,8 @@ import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.gmail.trentech.pja.ConfigManager;
 import com.gmail.trentech.pja.Main;
+import com.gmail.trentech.pja.utils.ConfigManager;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -31,21 +31,21 @@ public class CMDList implements CommandExecutor {
 		
 		ConfigurationNode config = new ConfigManager().getConfig();
 		
-		for(Entry<Object, ? extends ConfigurationNode> node : config.getNode("Commands").getChildrenMap().entrySet()){
+		for(Entry<Object, ? extends ConfigurationNode> node : config.getNode("Schedulers").getChildrenMap().entrySet()){
 			String name = node.getKey().toString();
 			String time = null;
 			String repeat = "false";
 			
-			if(config.getNode("Commands", name, "Time").getString() != null){
-				time = config.getNode("Commands", name, "Time").getString();
-			}else if(config.getNode("Commands", name, "Interval").getString() != null){
-				time = config.getNode("Commands", name, "Interval").getString();
-				if(node.getValue().getNode("Commands", name, "Repeat").getString() != null){
-					repeat = config.getNode("Commands", name, "Repeat").getString();
+			if(config.getNode("Schedulers", name, "Time").getString() != null){
+				time = config.getNode("Schedulers", name, "Time").getString();
+			}else if(config.getNode("Schedulers", name, "Interval").getString() != null){
+				time = config.getNode("Schedulers", name, "Interval").getString();
+				if(node.getValue().getNode("Schedulers", name, "Repeat").getString() != null){
+					repeat = config.getNode("Schedulers", name, "Repeat").getString();
 				}
 			}
 
-			String command = config.getNode("Commands", name, "Command").getString();
+			String command = config.getNode("Schedulers", name, "Command").getString();
 
 			list.add(getTask(name, time, repeat, command));
 		}

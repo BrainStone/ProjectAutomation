@@ -1,4 +1,4 @@
-package com.gmail.trentech.pja;
+package com.gmail.trentech.pja.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import com.gmail.trentech.pja.Main;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -23,9 +25,9 @@ public class Tasks {
 	}
     
 	private void start(ConfigurationNode config) {
-		for(Entry<Object, ? extends ConfigurationNode> entry : config.getNode("Commands").getChildrenMap().entrySet()){
+		for(Entry<Object, ? extends ConfigurationNode> entry : config.getNode("Schedulers").getChildrenMap().entrySet()){
 			String uuid = entry.getKey().toString();
-			ConfigurationNode node = config.getNode("Commands", uuid);
+			ConfigurationNode node = config.getNode("Schedulers", uuid);
 			if(node.getNode("Time").getString() != null){
 				timeCommand(node);	
 			}else if(node.getNode("Repeat").getBoolean()){

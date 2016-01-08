@@ -40,6 +40,36 @@ public class CMDHelp implements CommandExecutor {
 						+ " /auto create mycommand 1h,30m \"say this command will run one\"\n"
 						+ " /auto create mycommand 12/31/2015-1:00:00 \"say this command will only run once at a specific time\"";
 				break;
+			case "button":
+				description = " Create new command button";
+				syntax = " /auto create button <command>\n"
+						+ " /a c b <command>";
+				example = " /auto create button say hello world";
+				break;
+			case "door":
+				description = " Create new command door";
+				syntax = " /auto create door <command>\n"
+						+ " /a c d <command>";
+				example = " /auto create door say hello world";
+				break;
+			case "lever":
+				description = " Create new command lever";
+				syntax = " /auto create lever <command>\n"
+						+ " /a c l <command>";
+				example = " /auto create lever say hello world";
+				break;
+			case "plate":
+				description = " Create new command pressure plate.";
+				syntax = " /auto create plate <command>\n"
+						+ " /a c p <command>";
+				example = " /auto create plate say hello world";
+				break;
+			case "sign":
+				description = " Create new command sign.";
+				syntax = " /auto create sign <command>\n"
+						+ " /a c s <command>";
+				example = " /auto create sign say hello world";
+				break;
 			case "delete":
 				description = " Delete an existing scheduled command.";
 				syntax = " /auto delete <name>\n"

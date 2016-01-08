@@ -1,4 +1,4 @@
-package com.gmail.trentech.pja;
+package com.gmail.trentech.pja.utils;
 
 import java.util.concurrent.TimeUnit;
 
