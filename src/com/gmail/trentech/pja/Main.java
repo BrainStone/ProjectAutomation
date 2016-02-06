@@ -22,7 +22,10 @@ import com.gmail.trentech.pja.listeners.SignListener;
 import com.gmail.trentech.pja.utils.Resource;
 import com.gmail.trentech.pja.utils.Tasks;
 
-@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION)
+import me.flibio.updatifier.Updatifier;
+
+@Updatifier(repoName = "ProjectAutomation", repoOwner = "TrenTech", version = Resource.VERSION)
+@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, dependencies = "after: Updatifier")
 public class Main {
 
 	private static Game game;
