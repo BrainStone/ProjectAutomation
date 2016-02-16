@@ -43,13 +43,7 @@ public class PlateListener {
 			if(!block.getExtendedState().get(Keys.POWERED).get()){
 				return;
 			}
-			
-			if(!player.hasPermission("pja.plate.interact")){
-				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to interact with command pressure plate"));
-				event.setCancelled(true);
-				return;
-			}
-			
+
 			Location<World> location = block.getLocation().get();		
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
