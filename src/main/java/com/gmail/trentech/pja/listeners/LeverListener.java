@@ -55,7 +55,7 @@ public class LeverListener {
 				return;
 			}
 			
-			Main.getGame().getCommandManager().process(player, command);
+			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), command);
 		}
 	}
 	

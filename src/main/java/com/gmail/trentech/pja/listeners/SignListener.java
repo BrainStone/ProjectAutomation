@@ -82,7 +82,7 @@ public class SignListener {
 		
 		CommandManager commandManager = Main.getGame().getCommandManager();
 		
-		commandManager.process(player, command);
+		commandManager.process(Main.getGame().getServer().getConsole(), command);
 	}
 	
 	@Listener
