@@ -23,16 +23,16 @@ public class Tasks {
 			}
 		}).submit(Main.getPlugin());
 	}
-    
+
 	private void start(ConfigurationNode config) {
-		for(Entry<Object, ? extends ConfigurationNode> entry : config.getNode("Schedulers").getChildrenMap().entrySet()){
+		for (Entry<Object, ? extends ConfigurationNode> entry : config.getNode("Schedulers").getChildrenMap().entrySet()) {
 			String uuid = entry.getKey().toString();
 			ConfigurationNode node = config.getNode("Schedulers", uuid);
-			if(node.getNode("Time").getString() != null){
-				timeCommand(node);	
-			}else if(node.getNode("Repeat").getBoolean()){
+			if (node.getNode("Time").getString() != null) {
+				timeCommand(node);
+			} else if (node.getNode("Repeat").getBoolean()) {
 				repeatCommand(node);
-			}else{
+			} else {
 				runOnceCommand(node);
 			}
 		}
@@ -42,21 +42,21 @@ public class Tasks {
 		long interval = Utils.getTimeInMilliSeconds(node.getNode("Interval").getString());
 		Main.getGame().getScheduler().createTaskBuilder().async().delay(interval, TimeUnit.MILLISECONDS).interval(interval, TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
 			@Override
-            public void run() {			
+			public void run() {
 				Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), node.getNode("Command").getString());
-            }
-        }).submit(Main.getPlugin());
+			}
+		}).submit(Main.getPlugin());
 	}
-	
+
 	private void runOnceCommand(ConfigurationNode node) {
 		Main.getGame().getScheduler().createTaskBuilder().async().delay(Utils.getTimeInMilliSeconds(node.getNode("Interval").getString()), TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
 			@Override
-            public void run() {			
+			public void run() {
 				Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), node.getNode("Command").getString());
-            }
-        }).submit(Main.getPlugin());
+			}
+		}).submit(Main.getPlugin());
 	}
-	
+
 	private void timeCommand(ConfigurationNode node) {
 		Date current = new Date();
 		Date date = null;
@@ -66,15 +66,15 @@ public class Tasks {
 			e.printStackTrace();
 		}
 
-		if(current.after(date)){
+		if (current.after(date)) {
 			return;
 		}
 
 		Main.getGame().getScheduler().createTaskBuilder().async().delay(date.getTime() - current.getTime(), TimeUnit.MILLISECONDS).name(Resource.NAME + ":" + node.getKey().toString().toLowerCase()).execute(new Runnable() {
 			@Override
-            public void run() {
+			public void run() {
 				Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), node.getNode("Command").getString());
-            }
-        }).submit(Main.getPlugin());
+			}
+		}).submit(Main.getPlugin());
 	}
 }

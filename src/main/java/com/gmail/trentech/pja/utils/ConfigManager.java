@@ -17,28 +17,28 @@ public class ConfigManager {
 
 	public ConfigManager(String configName) {
 		String folder = "config" + File.separator + "projectautomation";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder + configName);
-		
+
 		create();
 		load();
 		init();
 	}
-	
+
 	public ConfigManager() {
 		String folder = "config" + File.separator + "projectautomation";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder, "config.conf");
-		
+
 		create();
 		load();
 		init();
 	}
-	
+
 	public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
 		return loader;
 	}
@@ -47,7 +47,7 @@ public class ConfigManager {
 		return config;
 	}
 
-	public void save(){
+	public void save() {
 		try {
 			loader.save(config);
 		} catch (IOException e) {
@@ -55,12 +55,12 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 	}
-	
-	private void init() {	
-		if(config.getNode("Delay").getString() == null) {
+
+	private void init() {
+		if (config.getNode("Delay").getString() == null) {
 			config.getNode("Delay").setValue("5");
 		}
-		if(config.getNode("Commands").getString() == null) {
+		if (config.getNode("Commands").getString() == null) {
 			config.getNode("Commands", "cmd1", "Interval").setValue("1m");
 			config.getNode("Commands", "cmd1", "Repeat").setValue(true);
 			config.getNode("Commands", "cmd1", "Command").setValue("say This command will run automatically every 1 minute");
@@ -70,19 +70,19 @@ public class ConfigManager {
 		save();
 	}
 
-	private void create(){
-		if(!file.exists()) {
+	private void create() {
+		if (!file.exists()) {
 			try {
 				Main.getLog().info("Creating new " + file.getName() + " file...");
-				file.createNewFile();		
-			} catch (IOException e) {				
+				file.createNewFile();
+			} catch (IOException e) {
 				Main.getLog().error("Failed to create new config file");
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	private void load(){
+
+	private void load() {
 		loader = HoconConfigurationLoader.builder().setFile(file).build();
 		try {
 			config = loader.load();

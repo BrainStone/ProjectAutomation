@@ -23,7 +23,7 @@ import com.gmail.trentech.pja.utils.Tasks;
 import me.flibio.updatifier.Updatifier;
 
 @Updatifier(repoName = "ProjectAutomation", repoOwner = "TrenTech", version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = {@Dependency(id = "Updatifier", optional = true)})
+@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true) })
 public class Main {
 
 	private static Game game;
@@ -31,32 +31,32 @@ public class Main {
 	private static PluginContainer plugin;
 
 	@Listener
-    public void onPreInitialization(GamePreInitializationEvent event) {
+	public void onPreInitialization(GamePreInitializationEvent event) {
 		game = Sponge.getGame();
 		plugin = getGame().getPluginManager().getPlugin(Resource.ID).get();
 		log = getPlugin().getLogger();
-    }
+	}
 
-    @Listener
-    public void onInitialization(GameInitializationEvent event) {
-    	getGame().getCommandManager().register(this, new CommandManager().cmdAuto, "auto", "a");
-    	
-    	getGame().getEventManager().registerListeners(this, new ButtonListener());
-    	getGame().getEventManager().registerListeners(this, new DoorListener());
-    	getGame().getEventManager().registerListeners(this, new LeverListener());
-    	getGame().getEventManager().registerListeners(this, new PlateListener());
-    	getGame().getEventManager().registerListeners(this, new SignListener());
-    }
+	@Listener
+	public void onInitialization(GameInitializationEvent event) {
+		getGame().getCommandManager().register(this, new CommandManager().cmdAuto, "auto", "a");
 
-    @Listener
-    public void onStartedServer(GameStartedServerEvent event) {
-    	new Tasks().start();
-    }
+		getGame().getEventManager().registerListeners(this, new ButtonListener());
+		getGame().getEventManager().registerListeners(this, new DoorListener());
+		getGame().getEventManager().registerListeners(this, new LeverListener());
+		getGame().getEventManager().registerListeners(this, new PlateListener());
+		getGame().getEventManager().registerListeners(this, new SignListener());
+	}
 
-    public static Logger getLog() {
-        return log;
-    }
-    
+	@Listener
+	public void onStartedServer(GameStartedServerEvent event) {
+		new Tasks().start();
+	}
+
+	public static Logger getLog() {
+		return log;
+	}
+
 	public static Game getGame() {
 		return game;
 	}

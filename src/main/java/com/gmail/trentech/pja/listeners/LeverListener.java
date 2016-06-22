@@ -30,54 +30,54 @@ public class LeverListener {
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
 			BlockSnapshot block = transaction.getFinal();
 			BlockType type = block.getState().getType();
-			
-			if(!type.equals(BlockTypes.LEVER)){
+
+			if (!type.equals(BlockTypes.LEVER)) {
 				return;
 			}
 
-			if(!block.getExtendedState().get(Keys.POWERED).isPresent()){
+			if (!block.getExtendedState().get(Keys.POWERED).isPresent()) {
 				return;
 			}
 
-			Location<World> location = block.getLocation().get();		
+			Location<World> location = block.getLocation().get();
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
-	        ConfigurationNode config = new ConfigManager().getConfig();
+			ConfigurationNode config = new ConfigManager().getConfig();
 
-			if(config.getNode("Levers", locationName).getString() == null){
+			if (config.getNode("Levers", locationName).getString() == null) {
 				return;
 			}
 			String command = config.getNode("Levers", locationName).getString();
 
-			if(!player.hasPermission("pja.lever.interact")){
+			if (!player.hasPermission("pja.lever.interact")) {
 				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to interact with command lever"));
 				event.setCancelled(true);
 				return;
 			}
-			
+
 			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), command);
 		}
 	}
-	
+
 	@Listener
 	public void onChangeBlockEvent(ChangeBlockEvent.Break event, @First Player player) {
 		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
+
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
-			Location<World> location = transaction.getFinal().getLocation().get();		
+			Location<World> location = transaction.getFinal().getLocation().get();
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
-			if(config.getNode("Levers", locationName).getString() == null){
+			if (config.getNode("Levers", locationName).getString() == null) {
 				continue;
 			}
-			
-			if(!player.hasPermission("pja.lever.break")){
+
+			if (!player.hasPermission("pja.lever.break")) {
 				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to break command lever"));
 				event.setCancelled(true);
 				return;
 			}
-			
+
 			config.getNode("Levers").removeChild(locationName);
 			configManager.save();
 			player.sendMessage(Text.of(TextColors.DARK_GREEN, "Broke command lever"));
@@ -86,40 +86,40 @@ public class LeverListener {
 
 	@Listener
 	public void onChangeBlockEvent(ChangeBlockEvent.Place event, @First Player player) {
-		if(!creators.containsKey(player)){
+		if (!creators.containsKey(player)) {
 			return;
 		}
 
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
 			BlockType type = transaction.getFinal().getState().getType();
-			
-			if(!type.equals(BlockTypes.LEVER)){
+
+			if (!type.equals(BlockTypes.LEVER)) {
 				continue;
 			}
 
 			Location<World> location = transaction.getFinal().getLocation().get();
 
-			if(!player.hasPermission("pja.lever.place")){
-	        	player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to place command lever"));
-	        	creators.remove(player);
-	        	event.setCancelled(true);
-	        	return;
+			if (!player.hasPermission("pja.lever.place")) {
+				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to place command lever"));
+				creators.remove(player);
+				event.setCancelled(true);
+				return;
 			}
 
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
-            ConfigManager configManager = new ConfigManager();
-            ConfigurationNode config = configManager.getConfig();
+			ConfigManager configManager = new ConfigManager();
+			ConfigurationNode config = configManager.getConfig();
 
-            String command = creators.get(player);
-            
-            config.getNode("Levers", locationName).setValue(command);
+			String command = creators.get(player);
 
-            configManager.save();
+			config.getNode("Levers", locationName).setValue(command);
 
-            player.sendMessage(Text.of(TextColors.DARK_GREEN, "New command lever created"));
-            
-            creators.remove(player);
+			configManager.save();
+
+			player.sendMessage(Text.of(TextColors.DARK_GREEN, "New command lever created"));
+
+			creators.remove(player);
 		}
 	}
 }

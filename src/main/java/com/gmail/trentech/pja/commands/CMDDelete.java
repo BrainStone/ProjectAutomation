@@ -19,35 +19,35 @@ public class CMDDelete implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("name")) {
+		if (!args.hasAny("name")) {
 			src.sendMessage(Text.of(TextColors.YELLOW, "/auto delete <name>"));
 			return CommandResult.empty();
 		}
-		String name = args.<String>getOne("name").get().toLowerCase();
-		
+		String name = args.<String> getOne("name").get().toLowerCase();
+
 		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
 
-		if(config.getNode("Schedulers", name).getString() == null){
+		if (config.getNode("Schedulers", name).getString() == null) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, name, " does not exist"));
 			return CommandResult.empty();
 		}
 
-		if(!config.getNode("Schedulers").removeChild(name)){
+		if (!config.getNode("Schedulers").removeChild(name)) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, "Something went wrong"));
 			return CommandResult.empty();
 		}
-		
+
 		configManager.save();
-		
-		for(Task t : Main.getGame().getScheduler().getScheduledTasks()){
-			if(t.getName().equals(Resource.NAME + ":" + name)){
+
+		for (Task t : Main.getGame().getScheduler().getScheduledTasks()) {
+			if (t.getName().equals(Resource.NAME + ":" + name)) {
 				t.cancel();
 			}
 		}
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, name, " removed"));
-		
+
 		return CommandResult.empty();
 	}
 

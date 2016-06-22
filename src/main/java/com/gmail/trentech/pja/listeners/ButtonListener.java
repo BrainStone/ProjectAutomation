@@ -30,58 +30,58 @@ public class ButtonListener {
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
 			BlockSnapshot block = transaction.getFinal();
 			BlockType type = block.getState().getType();
-			
-			if(!type.equals(BlockTypes.STONE_BUTTON) && !type.equals(BlockTypes.STONE_BUTTON)){
+
+			if (!type.equals(BlockTypes.STONE_BUTTON) && !type.equals(BlockTypes.STONE_BUTTON)) {
 				return;
 			}
 
-			if(!block.getExtendedState().get(Keys.POWERED).isPresent()){
+			if (!block.getExtendedState().get(Keys.POWERED).isPresent()) {
 				return;
 			}
 
-			if(!block.getExtendedState().get(Keys.POWERED).get()){
+			if (!block.getExtendedState().get(Keys.POWERED).get()) {
 				return;
 			}
 
-			Location<World> location = block.getLocation().get();		
+			Location<World> location = block.getLocation().get();
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
-	        ConfigurationNode config = new ConfigManager().getConfig();
+			ConfigurationNode config = new ConfigManager().getConfig();
 
-			if(config.getNode("Buttons", locationName).getString() == null){
+			if (config.getNode("Buttons", locationName).getString() == null) {
 				return;
 			}
 			String command = config.getNode("Buttons", locationName).getString();
 
-			if(!player.hasPermission("pja.button.interact")){
+			if (!player.hasPermission("pja.button.interact")) {
 				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to interact with command button"));
 				event.setCancelled(true);
 				return;
 			}
-			
+
 			Main.getGame().getCommandManager().process(Main.getGame().getServer().getConsole(), command);
 		}
 	}
-	
+
 	@Listener
 	public void onChangeBlockEvent(ChangeBlockEvent.Break event, @First Player player) {
 		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
+
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
-			Location<World> location = transaction.getFinal().getLocation().get();		
+			Location<World> location = transaction.getFinal().getLocation().get();
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
-			if(config.getNode("Buttons", locationName).getString() == null){
+			if (config.getNode("Buttons", locationName).getString() == null) {
 				continue;
 			}
-			
-			if(!player.hasPermission("pja.button.break")){
+
+			if (!player.hasPermission("pja.button.break")) {
 				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to break command button"));
 				event.setCancelled(true);
 				return;
 			}
-			
+
 			config.getNode("Buttons").removeChild(locationName);
 			configManager.save();
 			player.sendMessage(Text.of(TextColors.DARK_GREEN, "Broke command button"));
@@ -90,40 +90,40 @@ public class ButtonListener {
 
 	@Listener
 	public void onChangeBlockEvent(ChangeBlockEvent.Place event, @First Player player) {
-		if(!creators.containsKey(player)){
+		if (!creators.containsKey(player)) {
 			return;
 		}
 
 		for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
 			BlockType type = transaction.getFinal().getState().getType();
-			
-			if(!type.equals(BlockTypes.STONE_BUTTON) && !type.equals(BlockTypes.STONE_BUTTON)){
+
+			if (!type.equals(BlockTypes.STONE_BUTTON) && !type.equals(BlockTypes.STONE_BUTTON)) {
 				continue;
 			}
 
 			Location<World> location = transaction.getFinal().getLocation().get();
 
-			if(!player.hasPermission("pja.button.place")){
-	        	player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to place command button"));
-	        	creators.remove(player);
-	        	event.setCancelled(true);
-	        	return;
+			if (!player.hasPermission("pja.button.place")) {
+				player.sendMessage(Text.of(TextColors.DARK_RED, "you do not have permission to place command button"));
+				creators.remove(player);
+				event.setCancelled(true);
+				return;
 			}
 
 			String locationName = location.getExtent().getName() + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
 
-            ConfigManager configManager = new ConfigManager();
-            ConfigurationNode config = configManager.getConfig();
+			ConfigManager configManager = new ConfigManager();
+			ConfigurationNode config = configManager.getConfig();
 
-            String command = creators.get(player);
-            
-            config.getNode("Buttons", locationName).setValue(command);
+			String command = creators.get(player);
 
-            configManager.save();
+			config.getNode("Buttons", locationName).setValue(command);
 
-            player.sendMessage(Text.of(TextColors.DARK_GREEN, "New command button created"));
-            
-            creators.remove(player);
+			configManager.save();
+
+			player.sendMessage(Text.of(TextColors.DARK_GREEN, "New command button created"));
+
+			creators.remove(player);
 		}
 	}
 }

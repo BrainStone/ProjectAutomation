@@ -17,18 +17,18 @@ import com.gmail.trentech.pja.utils.Tasks;
 public class CMDReload implements CommandExecutor {
 
 	public CommandSpec cmdReload = CommandSpec.builder().description(Text.of("Reload plugin!")).permission("pja.cmd.auto.reload").executor(this).build();
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		for(Task t : Main.getGame().getScheduler().getScheduledTasks()){
-			if(t.getName().contains(Resource.NAME)){
+		for (Task t : Main.getGame().getScheduler().getScheduledTasks()) {
+			if (t.getName().contains(Resource.NAME)) {
 				t.cancel();
 			}
 		}
 		new Tasks().start();
 
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Reloaded"));
-		
+
 		return CommandResult.success();
 	}
 

@@ -15,22 +15,22 @@ public class CMDSign implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!(src instanceof Player)){
+		if (!(src instanceof Player)) {
 			src.sendMessage(Text.of(TextColors.DARK_RED, "Must be a player"));
 			return CommandResult.empty();
 		}
 		Player player = (Player) src;
-		
-		if(!args.hasAny("command")) {
+
+		if (!args.hasAny("command")) {
 			src.sendMessage(Text.of(TextColors.YELLOW, "/auto create sign <command>"));
 			return CommandResult.empty();
 		}
-		String command = args.<String>getOne("command").get();
+		String command = args.<String> getOne("command").get();
 
 		SignListener.creators.put(player, command);
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Place sign to create command sign"));
-		
+
 		return CommandResult.success();
 	}
 

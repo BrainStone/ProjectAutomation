@@ -24,23 +24,23 @@ public class CMDList implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
-		
+
 		pages.title(Text.builder().color(TextColors.DARK_GREEN).append(Text.of(TextColors.AQUA, "Tasks")).build());
-		
+
 		List<Text> list = new ArrayList<>();
-		
+
 		ConfigurationNode config = new ConfigManager().getConfig();
-		
-		for(Entry<Object, ? extends ConfigurationNode> node : config.getNode("Schedulers").getChildrenMap().entrySet()){
+
+		for (Entry<Object, ? extends ConfigurationNode> node : config.getNode("Schedulers").getChildrenMap().entrySet()) {
 			String name = node.getKey().toString();
 			String time = null;
 			String repeat = "false";
-			
-			if(config.getNode("Schedulers", name, "Time").getString() != null){
+
+			if (config.getNode("Schedulers", name, "Time").getString() != null) {
 				time = config.getNode("Schedulers", name, "Time").getString();
-			}else if(config.getNode("Schedulers", name, "Interval").getString() != null){
+			} else if (config.getNode("Schedulers", name, "Interval").getString() != null) {
 				time = config.getNode("Schedulers", name, "Interval").getString();
-				if(node.getValue().getNode("Schedulers", name, "Repeat").getString() != null){
+				if (node.getValue().getNode("Schedulers", name, "Repeat").getString() != null) {
 					repeat = config.getNode("Schedulers", name, "Repeat").getString();
 				}
 			}
@@ -51,18 +51,14 @@ public class CMDList implements CommandExecutor {
 		}
 
 		pages.contents(list);
-		
+
 		pages.sendTo(src);
 
 		return CommandResult.success();
 	}
-	
-	private Text getTask(String name, String time, String repeat, String command){
-		return Text.of(TextColors.DARK_GREEN, "Name: ", TextColors.GREEN, name, "\n",
-				TextColors.AQUA, "  Time: ", TextColors.GREEN, time, "\n",
-				TextColors.AQUA, "  Repeat: ", TextColors.GREEN, repeat, "\n",
-				TextColors.AQUA, "  Command:\n",
-				TextColors.GREEN,  "    ", command);
+
+	private Text getTask(String name, String time, String repeat, String command) {
+		return Text.of(TextColors.DARK_GREEN, "Name: ", TextColors.GREEN, name, "\n", TextColors.AQUA, "  Time: ", TextColors.GREEN, time, "\n", TextColors.AQUA, "  Repeat: ", TextColors.GREEN, repeat, "\n", TextColors.AQUA, "  Command:\n", TextColors.GREEN, "    ", command);
 	}
 
 }
